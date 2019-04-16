@@ -1,74 +1,32 @@
 package tech.poorguy.commonmapper.entity.po;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import tech.poorguy.commonmapper.base.PoBase;
+
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
+@ApiModel("标签PO")
 @Table(name = "tag")
-public class Tag {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Tag extends PoBase<String> {
+    @ApiModelProperty(value ="标签主键")
     @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
+    @Id
     private String id;
 
+    @ApiModelProperty(value = "标签名称")
+    @NotBlank
+    @Length(min = 1,max = 50)
     private String name;
-
-    @Column(name = "create_time")
-    private Date createTime;
-
-    @Column(name = "update_time")
-    private Date updateTime;
-
-    /**
-     * @return id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return create_time
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * @param createTime
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * @return update_time
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    /**
-     * @param updateTime
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 }

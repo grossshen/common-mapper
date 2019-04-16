@@ -1,6 +1,8 @@
 package tech.poorguy.commonmapper.base;
 
 
+import tech.poorguy.commonmapper.entity.Entity;
+
 import java.util.Date;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Date;
  * @E-mail 494939649@qq.com
  * @created 2019/4/16 15:11
  */
-public interface PoInterface<PK>  {
+public interface PoInterface<PK> extends Entity {
 
     PK getId();
 

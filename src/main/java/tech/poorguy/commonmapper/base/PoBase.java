@@ -13,7 +13,7 @@ import java.util.Date;
  * @created 2019/4/16 15:13
  */
 @Data
-public abstract class PoBase implements PoInterface{
+public abstract class PoBase<PK> implements PoInterface<PK>{
     @ApiModelProperty(value = "创建时间")
     @Column(name = "create_time")
     private Date createTime;
