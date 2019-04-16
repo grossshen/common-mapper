@@ -45,7 +45,7 @@ public class FormatResult implements Result {
     }
     public static FormatResult failure(String message){
         FormatResult result = new FormatResult();
-        result.setCode(ResultCode.INVALID_PARAM.getCode());
+        result.setCode(ResultCode.PARAM_IS_INVALID.getCode());
         result.setMsg(message);
         return result;
     }

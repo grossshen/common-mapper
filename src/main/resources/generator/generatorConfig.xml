@@ -26,7 +26,7 @@
                         password="root">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="tech.poorguy.commonmapper.model" targetProject="src/main/java"/>
+        <javaModelGenerator targetPackage="tech.poorguy.commonmapper.entity.po" targetProject="src/main/java"/>
 
         <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
 

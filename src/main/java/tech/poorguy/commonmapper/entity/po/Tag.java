@@ -1,4 +1,4 @@
-package tech.poorguy.commonmapper.model;
+package tech.poorguy.commonmapper.entity.po;
 
 import java.util.Date;
 import javax.persistence.*;

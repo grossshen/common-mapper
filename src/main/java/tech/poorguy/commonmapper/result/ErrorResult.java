@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
+import tech.poorguy.commonmapper.Util.RequestContextHolderUtil;
+import tech.poorguy.commonmapper.enume.BusinessExceptionEnum;
+import tech.poorguy.commonmapper.exception.BusinessException;
 import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.Date;
@@ -21,7 +24,10 @@ import java.util.Date;
 @Data
 public class ErrorResult implements Result {
     private static final long serialVersionUID = -2648953744601082906L;
-    //http响应状态码
+
+    /** 
+     * @Description:  http响应状态码
+     */
     private Integer status;
     //htttp响应码对应错误提示
     private String error;
@@ -35,6 +41,7 @@ public class ErrorResult implements Result {
     //异常的错误传递的数据：不解
     private Object errors;
     private Date timestamp;
+
     public static ErrorResult failure(ResultCode resultCode, Throwable e, HttpStatus httpStatus, Object errors) {
         ErrorResult result =ErrorResult.failure(resultCode, e, httpStatus);
         result.setErrors(errors);
@@ -53,13 +60,14 @@ public class ErrorResult implements Result {
         return result;
     }
 
+//    自定义异常
     public static ErrorResult failure(BusinessException e) {
-        ExceptionEnum ee = ExceptionEnum.getByEClass(e.getClass());
+        BusinessExceptionEnum ee = BusinessExceptionEnum.getByEClass(e.getClass());
         if (ee != null) {
             return ErrorResult.failure(ee.getResultCode(), e, ee.getHttpStatus(), e.getData());
         }
 
-        ErrorResult ErrorResult = ErrorResult.failure(e.getResultCode() == null ? ResultCode.SUCCESS : e.getResultCode(), e, HttpStatus.OK, e.getData());
+        ErrorResult ErrorResult = failure(e.getResultCode() == null ? ResultCode.SUCCESS : e.getResultCode(), e, HttpStatus.OK, e.getData());
         if (StringUtil.isNotEmpty(e.getMessage())) {
             ErrorResult.setMessage(e.getMessage());
         }

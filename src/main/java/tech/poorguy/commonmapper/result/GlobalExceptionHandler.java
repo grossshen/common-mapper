@@ -1,7 +1,9 @@
 package tech.poorguy.commonmapper.result;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,17 +49,16 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
     }
 
     /* 处理自定义异常 */
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResult> handleBusinessException(BusinessException e, HttpServletRequest request) {
-        return super.handleBusinessException(e, request);
-    }
+//    @ExceptionHandler(BusinessException.class)
+//    public ResponseEntity<ErrorResult> handleBusinessException(BusinessException e, HttpServletRequest request) {
+//        return super.handleBusinessException(e, request);
+//    }
 
     /* 处理运行时异常 */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(RuntimeException.class)
-    public ErrorResult handleRuntimeException(RuntimeException e, HttpServletRequest request) {
-        //TODO 可通过邮件、微信公众号等方式发送信息至开发人员、记录存档等操作（这个后面我们文章我们单独说明该怎么处理）
-        return super.handleRuntimeException(e, request);
+    @ExceptionHandler(Throwable.class)
+    public ErrorResult handleThrowable(Throwable e, HttpServletRequest request) {
+        return super.handleThrowable(e, request);
     }
 
 }

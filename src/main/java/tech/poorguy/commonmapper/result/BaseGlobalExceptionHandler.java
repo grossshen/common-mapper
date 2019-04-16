@@ -4,10 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import tech.poorguy.commonmapper.bean.ParameterInvalidItem;
+import tech.poorguy.commonmapper.exception.BusinessException;
+import tech.poorguy.commonmapper.helper.ParameterInvalidItemHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 /**
  * @author poorguy
@@ -16,15 +21,15 @@ import javax.validation.ConstraintViolationException;
  * @created 2019/4/16 11:28
  */
 @Slf4j
-public class BaseGlobalExceptionHandler {
+public abstract class BaseGlobalExceptionHandler {
 
     /**
      * 违反约束异常
      */
     protected ErrorResult handleConstraintViolationException(ConstraintViolationException e, HttpServletRequest request) {
         log.info("handleConstraintViolationException start, uri:{}, caused by: ", request.getRequestURI(), e);
-        List<ParameterInvalidItem> parameterInvalidItemList = ConvertUtil.convertCVSetToParameterInvalidItemList(e.getConstraintViolations());
-        return ErrorResult.failure(ResultCode.INVALID_PARAM, e, HttpStatus.BAD_REQUEST, parameterInvalidItemList);
+        List<ParameterInvalidItem> parameterInvalidItemList = ParameterInvalidItemHelper.convertCVSetToParameterInvalidItemList(e.getConstraintViolations());
+        return ErrorResult.failure(ResultCode.PARAM_IS_INVALID, e, HttpStatus.BAD_REQUEST, parameterInvalidItemList);
     }
 
     /**
@@ -32,7 +37,7 @@ public class BaseGlobalExceptionHandler {
      */
     protected ErrorResult handleConstraintViolationException(HttpMessageNotReadableException e, HttpServletRequest request) {
         log.info("handleConstraintViolationException start, uri:{}, caused by: ", request.getRequestURI(), e);
-        return ErrorResult.failure(ResultCode.INVALID_PARAM, e, HttpStatus.BAD_REQUEST);
+        return ErrorResult.failure(ResultCode.PARAM_IS_INVALID, e, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -40,8 +45,8 @@ public class BaseGlobalExceptionHandler {
      */
     protected ErrorResult handleBindException(BindException e, HttpServletRequest request) {
         log.info("handleBindException start, uri:{}, caused by: ", request.getRequestURI(), e);
-        List<ParameterInvalidItem> parameterInvalidItemList = ConvertUtil.convertBindingResultToMapParameterInvalidItemList(e.getBindingResult());
-        return ErrorResult.failure(ResultCode.INVALID_PARAM, e, HttpStatus.BAD_REQUEST, parameterInvalidItemList);
+        List<ParameterInvalidItem> parameterInvalidItemList = ParameterInvalidItemHelper.convertBindingResultToMapParameterInvalidItemList(e.getBindingResult());
+        return ErrorResult.failure(ResultCode.PARAM_IS_INVALID, e, HttpStatus.BAD_REQUEST, parameterInvalidItemList);
     }
 
     /**
@@ -49,8 +54,8 @@ public class BaseGlobalExceptionHandler {
      */
     protected ErrorResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
         log.info("handleMethodArgumentNotValidException start, uri:{}, caused by: ", request.getRequestURI(), e);
-        List<ParameterInvalidItem> parameterInvalidItemList = ConvertUtil.convertBindingResultToMapParameterInvalidItemList(e.getBindingResult());
-        return ErrorResult.failure(ResultCode.INVALID_PARAM, e, HttpStatus.BAD_REQUEST, parameterInvalidItemList);
+        List<ParameterInvalidItem> parameterInvalidItemList = ParameterInvalidItemHelper.convertBindingResultToMapParameterInvalidItemList(e.getBindingResult());
+        return ErrorResult.failure(ResultCode.PARAM_IS_INVALID, e, HttpStatus.BAD_REQUEST, parameterInvalidItemList);
     }
 
     /**
@@ -59,17 +64,17 @@ public class BaseGlobalExceptionHandler {
     protected ResponseEntity<ErrorResult> handleBusinessException(BusinessException e, HttpServletRequest request) {
         log.info("handleBusinessException start, uri:{}, exception:{}, caused by: {}", request.getRequestURI(), e.getClass(), e.getMessage());
 
-        ErrorResult ErrorResult = ErrorResult.failure(e);
+        ErrorResult ErrorResult = tech.poorguy.commonmapper.result.ErrorResult.failure(e);
         return ResponseEntity
                 .status(HttpStatus.valueOf(ErrorResult.getStatus()))
                 .body(ErrorResult);
     }
 
     /**
-     * 处理运行时系统异常（反500错误码）
+     * 处理未预测到的其他错误（反500错误码）
      */
-    protected ErrorResult handleRuntimeException(RuntimeException e, HttpServletRequest request) {
-        log.error("handleRuntimeException start, uri:{}, caused by: ", request.getRequestURI(), e);
+    protected ErrorResult handleThrowable(Throwable e, HttpServletRequest request) {
+        log.error("handleThrowable start, uri:{}, caused by: ", request.getRequestURI(), e);
         return ErrorResult.failure(ResultCode.SYSTEM_INNER_ERROR, e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

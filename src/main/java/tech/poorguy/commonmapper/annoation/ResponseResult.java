@@ -1,4 +1,7 @@
-package tech.poorguy.commonmapper.result;
+package tech.poorguy.commonmapper.annoation;
+
+import tech.poorguy.commonmapper.result.FormatResult;
+import tech.poorguy.commonmapper.result.Result;
 
 import java.lang.annotation.*;
 

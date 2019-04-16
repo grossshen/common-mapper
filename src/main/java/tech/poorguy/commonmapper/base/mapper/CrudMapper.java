@@ -1,7 +1,4 @@
-package tech.poorguy.commonmapper.base;
-
-import tk.mybatis.mapper.common.Mapper;
-import tk.mybatis.mapper.common.MySqlMapper;
+package tech.poorguy.commonmapper.base.mapper;
 
 /**
  * @author poorguy

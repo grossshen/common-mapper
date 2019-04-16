@@ -1,4 +1,4 @@
-package tech.poorguy.commonmapper.base;
+package tech.poorguy.commonmapper.base.mapper;
 
 import tk.mybatis.mapper.common.Marker;
 import tk.mybatis.mapper.common.base.select.*;
