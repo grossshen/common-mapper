@@ -13,7 +13,7 @@ import java.lang.annotation.*;
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
+@Documented//生成文档
 @Inherited
 public @interface ResponseResult {
     Class<? extends Result>  value() default FormatResult.class;

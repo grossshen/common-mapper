@@ -1,13 +1,16 @@
 package tech.poorguy.commonmapper.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import tech.poorguy.commonmapper.entity.bo.Test;
 import tech.poorguy.commonmapper.entity.po.Tag;
 import tech.poorguy.commonmapper.annoation.ResponseResult;
 import tech.poorguy.commonmapper.service.TagService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -18,21 +21,27 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/recommend")
-@ResponseResult
+//@ResponseResult
 public class TagController {
     @Autowired
     TagService tagService;
+    @PostMapping("/test")
+//    @ApiResponse()
+    public Object test(@RequestBody Test test){
+       System.out.println(test);
+       System.out.println(test.getId());
+        return test;
+    }
 
     @PostMapping("/tag")
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("添加标签")
     public Tag addTag(@RequestBody Tag tag){
         tagService.insert(tag);
         return tag;
     }
-    @GetMapping("hi")
+    @GetMapping("/hi")
     public void sayHi(){
-        System.out.println("hi");
+        System.out.println("hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi");
     }
 
     @ResponseStatus(HttpStatus.OK)

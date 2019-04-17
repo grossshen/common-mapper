@@ -20,11 +20,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tag extends PoBase<String> {
-    @ApiModelProperty(value ="标签主键")
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
-    @Id
-    private String id;
-
     @ApiModelProperty(value = "标签名称")
     @NotBlank
     @Length(min = 1,max = 50)
