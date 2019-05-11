@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/recommend")
-//@ResponseResult
+@ResponseResult
 public class TagController {
     @Autowired
     TagService tagService;
@@ -40,11 +40,11 @@ public class TagController {
         return tag;
     }
     @GetMapping("/hi")
-    public void sayHi(){
+    public String sayHi(){
         System.out.println("hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi");
+        return "hi";
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/tagList")
     public List<Tag> getTagList(){
         return tagService.selectAll();

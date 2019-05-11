@@ -19,7 +19,8 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tag extends PoBase<String> {
+public class Tag extends PoBase {
+    private static final long serialVersionUID = 2881060376334249969L;
     @ApiModelProperty(value = "标签名称")
     @NotBlank
     @Length(min = 1,max = 50)

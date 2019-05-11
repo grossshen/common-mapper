@@ -31,12 +31,11 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        String apiUri = "/api/**";
-//        响应结果控制拦截
-//        registry.addInterceptor(responseResultInterceptor).addPathPatterns(apiUri);
-//
-//        String apiUriCrossDomain="/"+"api"+"/**";
-//        registry.addInterceptor(allowCrossDomainInterceptor).addPathPatterns(apiUriCrossDomain);
+        String apiUri = "/api/**";
+        registry.addInterceptor(responseResultInterceptor).addPathPatterns(apiUri);
+
+        String apiUriCrossDomain="/api/**";
+        registry.addInterceptor(allowCrossDomainInterceptor).addPathPatterns(apiUriCrossDomain);
     }
 
 

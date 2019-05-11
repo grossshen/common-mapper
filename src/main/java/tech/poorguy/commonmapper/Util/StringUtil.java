@@ -1,5 +1,7 @@
 package tech.poorguy.commonmapper.Util;
 
+import java.util.UUID;
+
 /**
  * @author poorguy
  * @version 0.0.1
@@ -117,5 +119,11 @@ public class StringUtil {
 
         format = replace(format, replaceOperator, "%s");
         return formatIfArgs(format, args);
+    }
+    public static String generateUUID(){
+        return UUID.randomUUID().toString().replace("-","");
+    }
+    public static void main(String[] args){
+        System.out.println(generateUUID());
     }
 }

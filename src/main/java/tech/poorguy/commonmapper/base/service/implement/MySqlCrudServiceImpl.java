@@ -19,6 +19,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author poorguy
@@ -48,6 +49,7 @@ public abstract class MySqlCrudServiceImpl<E extends PoInterface<PK>, PK> implem
             record.setCreateTime(currentDate);
             record.setUpdateTime(currentDate);
         }
+        record.setId((PK) StringUtil.generateUUID());
         crudMapper.insert(record);
         return record.getId();
     }
